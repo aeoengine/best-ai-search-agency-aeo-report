@@ -1,0 +1,14 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ai.aeoengine/best-ai-search-agency-aeo-report",
+  "title": "Best AI Search Agency AEO Report",
+  "description": "Free AEO visibility report MCP — run AI search audits for any domain.",
+  "version": "2.0.0",
+  "websiteUrl": "https://aeoengine.ai",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://aeoengine.ai/mcp"
+    }
+  ]
+}
