@@ -1,0 +1,17 @@
+{
+  "name": "best-ai-search-agency-aeo-report",
+  "version": "2.1.0",
+  "description": "Free AEO visibility report MCP — run AI search audits for any domain via Best AI Search Agency AEO Report. Agents get a shareable report URL plus structured summary (ChatGPT, Google AI Overviews, Perplexity, and more).",
+  "homepage": "https://aeoengine.ai",
+  "author": {
+    "name": "AEO Engine",
+    "url": "https://aeoengine.ai",
+    "email": "team@aeoengine.ai"
+  },
+  "license": "MIT",
+  "keywords": ["AI", "search", "report", "SEO", "AEO", "visibility", "audit", "domain", "MCP"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aeoengine/best-ai-search-agency-aeo-report.git"
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "author": "AEO Engine",
+  "authorUrl": "https://aeoengine.ai",
+  "cloudEndpoint": "https://aeoengine.ai/mcp",
+  "description": "Free AEO visibility report MCP \u2014 run AI search audits for any domain via Best AI Search Agency AEO Report. Agents get a shareable report URL plus structured summary (ChatGPT, Google AI Overviews, Perplexity, and more).",
+  "homepage": "https://aeoengine.ai",
+  "identifier": "aeoengine-best-ai-search-agency-aeo-report",
+  "name": "Best AI Search Agency AEO Report",
+  "prompts": [],
+  "resources": [],
+  "tags": [
+    "AI",
+    "search",
+    "report",
+    "SEO",
+    "AEO",
+    "visibility",
+    "audit",
+    "domain",
+    "MCP"
+  ],
+  "tools": [
+    {
+      "name": "run_aeo_report",
+      "description": "Run the free AI-visibility report for a website (ChatGPT, Perplexity, Gemini, Claude coverage, competitor gaps, prioritized fixes). Requires the user's real email \u2014 the finished report is emailed there and a shareable report URL is returned. Takes up to ~10 minutes; set wait_seconds up to 50 to wait inline, or poll later with get_aeo_report_status. Never fill the company field.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "description": "Registrable domain or full URL to audit, e.g. example.com"
+          },
+          "email": {
+            "type": "string",
+            "description": "The user's real work email (MX-validated; disposable domains rejected). The report is emailed here."
+          },
+          "customQuestions": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string",
+                "pattern": "^\\s*$"
+              },
+              {
+                "type": "array",
+                "maxItems": 0,
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "array",
+                "minItems": 5,
+                "maxItems": 20,
+                "items": {
+                  "type": "string",
+                  "pattern": "\\S"
+                }
+              }
+            ],
+            "description": "Optional 5\u201320 exact questions, in order, replacing generated questions. Text and order are preserved verbatim; supplied questions are already approved. Omit, null, a blank string or [] to generate questions as before."
+          },
+          "competitor": {
+            "type": "string",
+            "description": "Optional pinned competitor domain to compare."
+          },
+          "competitors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional competitor domains to compare (max 5). The public report pins exactly one; send more only with an agency key."
+          },
+          "market": {
+            "type": "string",
+            "description": "Optional market the report is measured in, as a city and region, e.g. 'Austin, TX'. Same as context.location."
+          },
+          "report_profile": {
+            "type": "string",
+            "enum": [
+              "public",
+              "aio"
+            ],
+            "description": "Report profile / engine cohort."
+          },
+          "fresh": {
+            "type": "boolean",
+            "description": "Force a fresh run instead of a cached report."
+          },
+          "context": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "Short free-text vertical hint, e.g. 'medical aesthetics practice'. Same as {vertical_hint: '<text>'} on both the public and the agency-key path."
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "vertical_hint": {
+                    "type": "string",
+                    "description": "Short vertical hint."
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "City and region, e.g. 'Austin, TX'."
+                  },
+                  "focus_terms": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Named services/products to rank (max 8)."
+                  }
+                }
+              }
+            ],
+            "description": "Optional context that scopes the report. A string is the vertical hint. A value that cannot be used is rejected with invalid_context and a reason, never silently dropped: 422 on the public path, 400 with an agency key (including a blank string or a hint over 256 characters)."
+          },
+          "idempotency_key": {
+            "type": "string",
+            "description": "16-128 printable chars. Required for a trusted (agency-key) create so retries map to one job. May be sent as the Idempotency-Key HTTP header instead."
+          },
+          "wait_seconds": {
+            "type": "integer",
+            "description": "Seconds to wait inline for completion (0-50). Default 0: returns the job to poll."
+          }
+        },
+        "required": [
+          "domain",
+          "email"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Run AEO visibility report",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "get_aeo_report_status",
+      "description": "Poll a previously submitted AEO report job once. status is queued, preparing, needs_review or running (keep polling) or complete, partial or failed (terminal); state carries the phase and reason. When complete or partial, returns the structured report (per-engine breakdown with provenance, recommendations, coverage, methodology, the measured questions, competitor evidence, named share of voice), the shareable report_url, and a markdown_summary to read to the user.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "description": "job_id from run_aeo_report"
+          }
+        },
+        "required": [
+          "job_id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Get AEO report status",
+        "readOnlyHint": true,
+        "openWorldHint": false
+      }
+    }
+  ],
+  "version": "2.1.0",
+  "repository": "https://github.com/aeoengine/best-ai-search-agency-aeo-report"
+}
